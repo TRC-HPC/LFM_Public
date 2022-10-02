@@ -1,0 +1,3 @@
+runTimeManagerOF.cpp
+
+LIB = $(FOAM_USER_LIBBIN)/librunTimeManagerOF

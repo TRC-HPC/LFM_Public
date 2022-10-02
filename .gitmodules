@@ -1,0 +1,6 @@
+[submodule "caafoam"]
+	path = caafoam
+	url = https://github.com/vdalessa/caafoam.git
+[submodule "eikonal"]
+	path = eikonal
+	url = https://github.com/vdalessa/eikonal.git

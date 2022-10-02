@@ -1,0 +1,42 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  4.0                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      sample;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+type sets;
+libs ("libsampling.so");
+
+interpolationScheme cellPointFace;
+
+setFormat       raw;
+
+sets
+(
+    points
+    {
+         type    cloud;
+        axis    xyz;
+        points  (
+
+
+                );
+    }
+);
+
+fields              (  pPrime2Mean );
+//axis        xyz;           // This I don't know why is needed, but needs to be defined as well?
+
+
+// ************************************************************************* //

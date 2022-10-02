@@ -1,0 +1,3 @@
+polyMeshReaderOF.cpp
+
+LIB = $(FOAM_USER_LIBBIN)/libpolyMeshReaderOF
