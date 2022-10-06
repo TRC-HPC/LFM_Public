@@ -1,5 +1,24 @@
 ﻿# libFastMesh - Finite Volume CFD Solver
 
+## Directories & Files
+
+libFastMesh files are divided into the following directories:
+ - api: contains the header files (.h) for all the classes
+ - src: contains the source files (.cpp)
+ - info: contains the main function lfm_solve.cpp responsible to parse the input arguments and run libFastMesh
+ - dictReaderOF, polyMeshReaderOF, runTimeManagerOF: contains the extension modules for OpenFOAM which are used within libFastMesh
+
+The main classes within libFastMesh are:
+- MPI_env (api/mpi_env.h, src/mpi_env.cpp): responsible for the MPI communication, for both one-sided and two-sided communication
+- IMesh (api/fastmesh.h, src/mesh_reader.cpp, src/mesh_solver.cpp): Interface representing the complete computational mesh assigned to the processor. Creates instances of ISolver which are responsible to solve a submesh  (boundary / interior).
+ Responsible to execture the iterations and utilize MPI_env and ISolver instances to communicate the halo cells between adjacent neighboring processors.
+- ISolver (api/cfdv0_solver.h, src/cfd_v0.cpp): Interface representing a submesh of the complete mesh. Include data structures which contains the cells geometry and conservatives.
+- polyMeshReaderOF: Responsible to read the polyMesh in OpenFOAM format and extract the geometry and boundary conditions. Enables creation of additional scalar and vector variables.
+- dictReaderOF: Allows extraction of arguments from OpenFOAM dictionary files
+- runTimeManagerOF: Responsible to read the controlDict parameters referring to I/O frequency and format, and write the scalar/vector fields within the current timestamp directory.
+-
+The classes are written in templates format to minimize the memory footprint based on executed case - allowing both single/double precision, 2D/3D problems and geometry aware data structures.
+
 ## Installation
 
 ### Prerequisities
