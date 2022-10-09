@@ -1,4 +1,4 @@
-﻿# libFastMesh - Finite Volume CFD Solver
+﻿# libFastMesh - Optimized Finite Volume Computational Aeroacoustics (CAA) Code
 
 ## Directories & Files
 
