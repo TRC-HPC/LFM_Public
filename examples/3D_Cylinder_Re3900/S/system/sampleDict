@@ -1,0 +1,80 @@
+FoamFile
+{
+  version 2.0;
+  format ascii ;
+  class dictionary ;
+  location system ;
+  object sampleDict ;
+}
+
+setFormat raw;
+
+interpolationScheme cellPoint;
+
+fields ( UMean UPrime2Mean );
+//fields ( UMean UPrime2Mean RlinMean );
+
+sets
+(
+      profile01
+      {
+          type uniform; // type of the set
+          axis y;
+          start (1.06 -5.0 1.57);
+          end   (1.06  5.0 1.57);
+          nPoints 1001;
+      }
+      
+      profile02
+      {
+          type uniform; // type of the set
+          axis y;
+          start (1.54 -5.0 1.57);
+          end   (1.54  5.0 1.57);
+          nPoints 1001;
+      }
+      
+      profile03
+      {
+          type uniform; // type of the set
+          axis y;
+          start (2.02 -5.0 1.57);
+          end   (2.02  5.0 1.57);
+          nPoints 1001;
+      }
+      profile04
+      {
+          type uniform; // type of the set
+          axis y;
+          start (4.00 -5.0 1.57);
+          end   (4.00  5.0 1.57);
+          nPoints 1001;
+      }
+      profile05
+      {
+          type uniform; // type of the set
+          axis y;
+          start (7.00 -5.0 1.57);
+          end   (7.00  5.0 1.57);
+          nPoints 1001;
+      }
+      profile06
+      {
+          type uniform; // type of the set
+          axis y;
+          start (10.00 -5.0 1.57);
+          end   (10.00  5.0 1.57);
+          nPoints 1001;
+      }
+
+      profile07
+      {
+          type uniform; // type of the set
+          axis x;
+          start (0.50   0.0 1.57);
+          end   (10.00  0.0 1.57);
+          nPoints 1001; 
+      }
+
+
+);

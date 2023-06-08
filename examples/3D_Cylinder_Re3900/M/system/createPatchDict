@@ -1,0 +1,79 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.x                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      createPatchDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+pointSync false;
+// Patches to create.
+patches
+(
+//-----------------------------------------------------------------------------------
+     {
+        // Name of new patch
+        name simm_zp;
+
+        // Dictionary to construct new patch from
+        patchInfo
+        {
+            type cyclic;
+            neighbourPatch simm_zm;
+
+            // Optional: explicitly set transformation tensor.
+            // Used when matching and synchronising points.
+            //transform rotational;
+            //rotationAxis (0 0 1);
+            //rotationCentre (0 0 0);
+        matchTolerance 1E-5;
+	}
+
+        // How to construct: either from 'patches' or 'set'
+        constructFrom patches;
+
+        // If constructFrom = patches : names of patches. Wildcards allowed.
+        patches (periodic_p);
+        // If constructFrom = set : name of faceSet
+        set f0;
+    }
+//-----------------------------------------------------------------------------------
+    {
+        // Name of new patch
+        name simm_zm;
+
+        // Dictionary to construct new patch from
+        patchInfo
+        {
+            type cyclic;
+            neighbourPatch simm_zp;
+
+            //transform rotational;
+            //rotationAxis (0 0 1);
+            //rotationCentre (0 0 0);
+        matchTolerance 1E-5;
+        }
+
+        // How to construct: either from 'patches' or 'set'
+        constructFrom patches;
+
+        // If constructFrom = patches : names of patches. Wildcards allowed.
+        patches (periodic_m);
+        // If constructFrom = set : name of faceSet
+        set f0;
+    }
+
+//-----------------------------------------------------------------------------------
+
+);
+
+// ************************************************************************* //
+

@@ -24,7 +24,7 @@ The commType controls how the boundary data is sent and should remain 2
 
 # Run the cases
 
-The run.sh script untars the heavy mesh files, performs the domain decomposition, renumbers of the mesh, and runs the test case. Just run the script as:
+Each mesh size contains a run.sh script that untars the heavy mesh files, performs the domain decomposition, renumbers of the mesh, and runs the test case. Just run the script as:
 ```
 ./run.sh X
 ```

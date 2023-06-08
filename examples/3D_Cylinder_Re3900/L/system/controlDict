@@ -1,0 +1,77 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.2                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+lfm
+{
+  commType 2; // controls how the boundary data is sent and should remain 2
+  haloCommType 1; // 0:two-sided blocking ; 1:two-sided non-blocking; 3:one-sided(RMA) blocking ; 4:one-sided(RMA) non-blocking
+  doublePrecision   true;
+
+  post
+  {
+    haveProbes  false;
+    haveSampling  false;
+    haveAverage false;
+    tStartAverage 100000.0;
+    haveForces  false;
+    haveResiduals false;
+    saveForcesStep  1000000;
+    saveRank        false;
+    printInfoFreq 10;
+    saveResiduals false;
+    saveBlendFactor false;
+  }
+
+  maxCFL      1;
+}
+
+startFrom       startTime;
+
+startTime       0.0;
+
+stopAt          endTime;
+
+endTime         1000.0e-3;
+
+deltaT          2.0e-3;
+
+writeControl    timeStep;
+
+writeInterval   10000;
+
+purgeWrite      3;
+
+writeFormat     binary;
+
+writePrecision  12;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   18;
+
+runTimeModifiable true;
+
+pressArtDiff    false; //activate artificial diffusion on pressure
+convArtDiff     false; //activate artificial diffusion on pressure
+
+ducLevelPress       1.00;
+ducLevelConv        1.00;
+epsilon             4.0e-2;
+kp                  0.25;;
+ku                  0.75;;
+
