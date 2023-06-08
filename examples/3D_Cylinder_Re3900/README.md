@@ -15,11 +15,11 @@ The case consists of a cylinder of unit diameter at the center of the computatio
   
 Because of the large size of some of the mesh files, git-lfs was used to store some of the generated polyMesh files.
   
-To select communication type (blocking / non-blocking), the 'haloCommType' should be modified (found inside system/controlDict) where:
-	0 = two-sided blocking
-	1 = two-sided non-blocking
-  3 = one-sided (RMA) blocking
-  4 = one-sided (RMA) non-blocking
+To select communication type (blocking / non-blocking), the 'haloCommType' should be modified (found inside system/controlDict) where:  
+0 = two-sided blocking  
+1 = two-sided non-blocking  
+3 = one-sided (RMA) blocking  
+4 = one-sided (RMA) non-blocking  
 The commType controls how the boundary data is sent and should remain 2
 
 # Run the cases
