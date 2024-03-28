@@ -107,7 +107,7 @@ void MPI_env::finalize(){
 			break;
 	}
 
-	MPI_Finalize();
+	MPI_Finalize();	
 }
 
 //***************************************************************************************************
@@ -139,8 +139,8 @@ void MPI_env :: set_halo_comm_type_onesided(enum t_mpi_halo_comm type_mpi_comm,
 //***************************************************************************************************
 template <typename PRECISION, unsigned DIM_CNT, unsigned FACE_CNT>
 void MPI_env :: set_halo_comm_type( enum t_mpi_halo_comm type_mpi_comm,
-									fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>& cells_cfd,
-									fm_vector<fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>>& ghost_cells ){
+									std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>& cells_cfd,
+									std::vector<std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>>& ghost_cells ){
 
 	halo_comm_type = type_mpi_comm;
 
@@ -296,7 +296,7 @@ void MPI_env:: init_graph( const std::vector<int> mpi_neighbors ){
 
 // irget
 template <typename PRECISION, unsigned DIM_CNT, unsigned FACE_CNT>
-void MPI_env:: irget(fm_vector<fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> &ghost_cells )
+void MPI_env:: irget(std::vector<std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> &ghost_cells )
 {
 	// Start Window
 	startWindow(0);
@@ -314,7 +314,7 @@ void MPI_env:: irget(fm_vector<fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT
 
 // rget
 template <typename PRECISION, unsigned DIM_CNT, unsigned FACE_CNT>
-void MPI_env:: rget(fm_vector<fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> &ghost_cells )
+void MPI_env:: rget(std::vector<std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> &ghost_cells )
 {
 	// Start Windows
 	startWindow(0);
@@ -333,8 +333,8 @@ void MPI_env:: rget(fm_vector<fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>
 // sendrecv
 template <typename PRECISION, unsigned DIM_CNT, unsigned FACE_CNT>
 void MPI_env:: sendrecv(
-						  fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>  &cells_cfd,
-				fm_vector<fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> &ghost_cells ){
+						  std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>  &cells_cfd,
+				std::vector<std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> &ghost_cells ){
 
 	const int million = 1000;
 
@@ -362,8 +362,8 @@ void MPI_env:: sendrecv(
 // Isendrecv
 template <typename PRECISION, unsigned DIM_CNT, unsigned FACE_CNT>
 void MPI_env:: isendrecv(
-						  fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>  &cells_cfd,
-					      fm_vector<fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> &ghost_cells ){
+						  std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>  &cells_cfd,
+					      std::vector<std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> &ghost_cells ){
 
 
 
@@ -385,8 +385,8 @@ void MPI_env:: isendrecv(
 
 template <typename PRECISION, unsigned DIM_CNT, unsigned FACE_CNT>
 void MPI_env:: initializeCompletePersistantSendRecv(int ineigh,
-						  fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>  &cells_cfd,
-					      fm_vector<fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> &ghost_cells ){
+						  std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>  &cells_cfd,
+					      std::vector<std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> &ghost_cells ){
 
 	int src = mpi_neighbors[ineigh];
 	int dest = mpi_neighbors[ineigh];

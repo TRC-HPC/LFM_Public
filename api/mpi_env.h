@@ -157,8 +157,8 @@ class MPI_env {
 
 		template <typename PRECISION, unsigned DIM_CNT, unsigned FACE_CNT>
 		void set_halo_comm_type( enum t_mpi_halo_comm type_mpi_comm,
-									fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>& cells_cfd,
-									fm_vector<fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>>& ghost_cells );
+									std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>& cells_cfd,
+									std::vector<std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>>& ghost_cells );
 
 		void set_halo_comm_type_onesided(enum t_mpi_halo_comm type_mpi_comm,
 										std::vector<void*>& pBufferList, std::vector<size_t>& nBufferElementCountList, 
@@ -201,25 +201,25 @@ class MPI_env {
 
 		// One-sided, blocking
 		template <typename PRECISION, unsigned DIM_CNT, unsigned FACE_CNT>
-		void rget(fm_vector<fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> &ghost_hpath );
+		void rget(std::vector<std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> &ghost_hpath );
 
 		// One-sided, non-blocking
 		template <typename PRECISION, unsigned DIM_CNT, unsigned FACE_CNT>
-		void irget(fm_vector<fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> &ghost_hpath );
+		void irget(std::vector<std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> &ghost_hpath );
 
 		// Two-sided, blocking
 		template <typename PRECISION, unsigned DIM_CNT, unsigned FACE_CNT>
-		void sendrecv(          fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>  &cells_hpath,
-                       fm_vector<fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> &ghost_hpath );
+		void sendrecv(          std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>  &cells_hpath,
+                       std::vector<std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> &ghost_hpath );
 
 		// Two-sided, non-blocking
 		template <typename PRECISION, unsigned DIM_CNT, unsigned FACE_CNT>
-		void isendrecv(          fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>  &cells_hpath,
-                       fm_vector<fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> &ghost_hpath );
+		void isendrecv(          std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>  &cells_hpath,
+                       std::vector<std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> &ghost_hpath );
 
 		template <typename PRECISION, unsigned DIM_CNT, unsigned FACE_CNT>
-		void initializeCompletePersistantSendRecv(const int ineigh, fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>  &cells_hpath,
-                       											    fm_vector<fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> &ghost_hpath);
+		void initializeCompletePersistantSendRecv(const int ineigh, std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>  &cells_hpath,
+                       											    std::vector<std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> &ghost_hpath);
 		
 		// New functions
 		inline void set_type_cfdcell( MPI_Datatype t_cfdcell ){ type_cfdcell = t_cfdcell; }

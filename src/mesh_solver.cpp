@@ -325,7 +325,10 @@ void Mesh<PRECISION, DIM_CNT> :: solve()
 
 	// Allocate residual array
 	if(m_pInput->m_bHaveResidual)
+	{
 		RES = new PRECISION[DIM_CNT+2];
+		for (int i = 0; i < DIM_CNT + 2; i++) RES[i] = 0;
+	}
 	
 	struct stat info;
 	if( stat( "./output/", &info ) != 0 )

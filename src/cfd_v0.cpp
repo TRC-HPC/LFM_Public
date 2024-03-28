@@ -474,23 +474,24 @@ void CFDv0_solver<PRECISION, DIM_CNT, FACE_CNT> ::
 	}
 
 	// Count number of ghost cells from each neighbor
-	// This tells each one of our neighbors that we will send them ALL of our cells data (and not just the onces with shared boundary!)
+	// This tells each one of our neighbors that we will send them ALL of our cells data (and not just the ones with shared boundary!)
 	// We will also receive it from each one of our neighbors, so that we may assign arrays to receive this data
 	std::vector<MPI_Request> comm_reqs( 2*mpi_neighbors.size() );
 	std::vector<int> ghost_size( mpi_neighbors.size(), -1 );
+	std::vector<int> local_size_vec(mpi_neighbors.size(), 0);
 	for( size_t ineigh=0; ineigh < mpi_neighbors.size(); ineigh++ ){
 
 		int neigh_rank = mpi_neighbors[ineigh];
 
-		// Hpath cellls
+		// Hpath cells
 		int send_tag = 0;
 		int recv_tag = 0;
 
 		// Note: This may be very expensive if only part of our boundaries are in MPI boundary
 		// Warning: The index within the mpi ghost (defined during assign_pointers) assume all the cells are sent!
-		int local_size = (int) cells_cfd.size();
+		local_size_vec[ineigh] = (int) cells_cfd.size();
 
-		MPI_Isend( &local_size, 1, MPI_INT, neigh_rank, send_tag, MPI_COMM_WORLD, &comm_reqs[ineigh] );
+		MPI_Isend( &local_size_vec[ineigh], 1, MPI_INT, neigh_rank, send_tag, MPI_COMM_WORLD, &comm_reqs[ineigh] );
 		MPI_Irecv( &ghost_size[ineigh], 1, MPI_INT, neigh_rank, recv_tag, MPI_COMM_WORLD, &comm_reqs[ineigh+mpi_neighbors.size()] );
 	}
 	MPI_Waitall( comm_reqs.size(), &comm_reqs[0], MPI_STATUS_IGNORE );
@@ -644,7 +645,7 @@ void CFDv0_solver<PRECISION, DIM_CNT, FACE_CNT> :: assign_pointers(
 
 	// Exchange mapping size
 	int nSendCellOffset = 0;
-	int send_info[2];
+	std::vector<int> send_info(mpi_neighbors.size() * 2);
 	std::vector<MPI_Request> comm_reqs(2*mpi_neighbors.size());
 	std::vector<int> ghost_info(mpi_neighbors.size() * 2);
 	for (size_t ineigh=0; ineigh < mpi_neighbors.size(); ineigh++) {
@@ -655,9 +656,9 @@ void CFDv0_solver<PRECISION, DIM_CNT, FACE_CNT> :: assign_pointers(
 		int send_tag = 0;
 		int recv_tag = 0;
 		
-		send_info[0] = local_cells_to_send[ineigh].size();
-		send_info[1] = nSendCellOffset;
-		MPI_Isend( &send_info, 2, MPI_INT, neigh_rank, send_tag, MPI_COMM_WORLD, &comm_reqs[ineigh] );
+		send_info[ineigh * 2] = local_cells_to_send[ineigh].size();
+		send_info[ineigh * 2 + 1] = nSendCellOffset;
+		MPI_Isend( &send_info[ineigh * 2], 2, MPI_INT, neigh_rank, send_tag, MPI_COMM_WORLD, &comm_reqs[ineigh] );
 		MPI_Irecv( &ghost_info[ineigh * 2], 2, MPI_INT, neigh_rank, recv_tag, MPI_COMM_WORLD, &comm_reqs[ineigh+mpi_neighbors.size()] );
 		nSendCellOffset += local_cells_to_send[ineigh].size();
 	}
@@ -764,8 +765,9 @@ void CFDv0_solver<PRECISION, DIM_CNT, FACE_CNT> :: init_params( gmsh_mesh *pSubM
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	// Hpath cells
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	cells_cfd.set_start(0);
-	cells_cfd.set_end  (nCellCount);
+	//cells_cfd.set_start(0);
+	//cells_cfd.set_end  (nCellCount);
+	cells_cfd.resize(nCellCount);
 
 	// Cell's center
 	xc.resize(nCellCount, std::vector<PRECISION>( DIM_CNT ));
@@ -1388,7 +1390,7 @@ void CFDv0_solver<PRECISION, DIM_CNT, FACE_CNT> :: calc_gradients_M2AUSM( MPI_en
 	PRECISION rhoU[DIM_CNT];
 
 	// Run on all cells
-	for( size_t icell=cells_cfd.start(); icell < cells_cfd.end(); icell++ ){
+	for( size_t icell=0; icell < cells_cfd.size(); icell++ ){
 		// Get Cell & Vars
 		auto *cell = &cells_cfd[icell];
 		auto *vars = &cells_cfd[icell].vars;
@@ -1502,7 +1504,7 @@ void CFDv0_solver<PRECISION, DIM_CNT, FACE_CNT> :: calc_gradients( MPI_env &mpi_
 	PRECISION adjc_surf_over_vol[DIM_CNT];
 	PRECISION rhoU[DIM_CNT];
 
-	for( size_t icell=cells_cfd.start(); icell < cells_cfd.end(); icell++ ){
+	for( size_t icell=0; icell < cells_cfd.size(); icell++ ){
 		auto *cell = &cells_cfd[icell];
 		auto *vars = &cells_cfd[icell].vars;
 

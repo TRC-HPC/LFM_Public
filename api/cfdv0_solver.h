@@ -120,18 +120,17 @@ class CFDv0_solver : public ISolver
 		vector<PRECISION> m_dBk;
 
 		// Cells
-		// TODO: Solal: Why use of fm_vector and not std::vector?
-		fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>> cells_cfd;
+		std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>> cells_cfd;
 
 		// Dummy cell: used for NEIGHBOR_NONE access
-		fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>> dummy_cell;
+		std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>> dummy_cell;
 		t_solution_vars<PRECISION, DIM_CNT> dummy_var;
 
 		std::vector<std::vector<PRECISION>> xc;
 
 		// Ghost cells
-		fm_vector<fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> ghost_mpi;
-		fm_vector<fm_vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> ghost_bnd;
+		std::vector<std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> ghost_mpi;
+		std::vector<std::vector<CFDv0_cell<PRECISION, DIM_CNT, FACE_CNT>>> ghost_bnd;
 
 		// Constants
 		const PRECISION ZERO  =  0.0;
